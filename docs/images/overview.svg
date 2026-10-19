@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+<title id="title">Variable OS 原中文 DSH 变量发现台</title><desc id="desc">同步业主原卡，在自己的电脑阅读和研究。公开预览版，读卡无需模型 Key。</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#081924"/><stop offset="1" stop-color="#153c47"/></linearGradient></defs>
+<rect width="1280" height="360" rx="20" fill="url(#bg)"/>
+<g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="48" y="42" width="180" height="31" rx="15" fill="#234d58"/>
+<text x="66" y="64" font-size="16" fill="#b9e3d9">OPEN SOURCE · 预览版</text>
+<text x="48" y="143" font-size="52" font-weight="700" fill="#f6f5ee">变量发现台</text>
+<text x="49" y="183" font-size="22" letter-spacing="4" fill="#9cc6c4">VARIABLE OS / DSH PLUGIN</text>
+<text x="49" y="237" font-size="25" fill="#f6f5ee">同步同一张原卡，在自己的电脑阅读与研究。</text>
+<text x="49" y="298" font-size="18" fill="#c5d9da">原中文界面　 ·　 API / MCP 共用授权　 ·　 读卡无需模型 Key</text>
+<rect x="930" y="70" width="282" height="216" rx="16" fill="#f3eee3"/>
+<rect x="950" y="92" width="70" height="25" rx="5" fill="#28624f"/>
+<text x="961" y="110" font-size="14" fill="white">业主原卡</text>
+<text x="950" y="151" font-size="21" font-weight="600" fill="#263b38">ID · 版本 · 发布哈希</text>
+<path d="M950 173 H1188 M950 196 H1170 M950 219 H1110" stroke="#c2cbc3" stroke-width="8" stroke-linecap="round"/>
+<text x="950" y="261" font-size="16" fill="#376958">正文与引用随授权同步</text>
+</g></svg>

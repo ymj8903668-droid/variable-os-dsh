@@ -1,0 +1,13 @@
+{
+  "name": "variable-os-plugin-source-build-deps",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.19.0",
+    "pnpm": "11.25.0"
+  },
+  "dependencies": {
+    "esbuild": "0.28.2",
+    "ipaddr.js": "2.5.0"
+  }
+}

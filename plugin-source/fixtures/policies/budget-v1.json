@@ -1,0 +1,11 @@
+{
+  "version": "budget-v1",
+  "synthetic": true,
+  "timezone": "Asia/Shanghai",
+  "period": "TRADING_DAY",
+  "buckets": {
+    "NEW": 10,
+    "WATCH_RETURN": 5,
+    "URGENT": 3
+  }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="355" viewBox="0 0 1280 355" role="img" aria-labelledby="title desc">
+<title id="title">从网站账户到本机原卡的接入流程</title><desc id="desc">注册邮件登录，获取接入信息及个人令牌，导入插件，检查连接并通过 HTTP SSE 自动同步。七个只读 MCP 工具使用相同授权。</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#477a70"/></marker></defs>
+<rect width="1280" height="355" rx="16" fill="#f7f5ef"/>
+<g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<text x="36" y="46" font-size="24" font-weight="700" fill="#173d35">四步开始：先接入原卡，再按需开启个人研究</text>
+<g fill="white" stroke="#c9d8cf"><rect x="36" y="83" width="260" height="150" rx="12"/><rect x="352" y="83" width="260" height="150" rx="12"/><rect x="668" y="83" width="260" height="150" rx="12"/><rect x="984" y="83" width="260" height="150" rx="12"/></g>
+<g stroke="#477a70" stroke-width="2" marker-end="url(#a)"><path d="M305 157 H340"/><path d="M621 157 H656"/><path d="M937 157 H972"/></g>
+<g font-size="20" font-weight="650" fill="#173d35"><text x="56" y="122">01　网站注册 / 登录</text><text x="372" y="122">02　取得接入信息</text><text x="688" y="122">03　原插件配置</text><text x="1004" y="122">04　同步同一张卡</text></g>
+<g font-size="17" fill="#50625b"><text x="56" y="163">完成邮箱验证</text><text x="56" y="195">确认账户信源授权</text><text x="372" y="163">下载 API / MCP 信息</text><text x="372" y="195">私下保存个人访问令牌</text><text x="688" y="163">导入 JSON，填写令牌</text><text x="688" y="195">保存连接 → 检查连接</text><text x="1004" y="163">HTTP / SSE 自动更新</text><text x="1004" y="195">读取原文、版本与引用</text></g>
+<rect x="36" y="260" width="1208" height="62" rx="10" fill="#e7eee6"/>
+<text x="58" y="298" font-size="18" fill="#315e50">同一授权 → 网站 / API / 七个只读 MCP / 原中文插件　　个人 AI 服务另行配置；账户权限与额度仍然有效。</text>
+</g></svg>

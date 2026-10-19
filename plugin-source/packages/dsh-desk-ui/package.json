@@ -1,0 +1,89 @@
+{
+  "name": "@variable-os/dsh-desk-ui",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "description": "Variable OS desk surface for DeepSeek Harness (Host + Client)",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-primitives",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "prepare": "pnpm build",
+    "test": "node --test *.test.mjs"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.5-alpha.1",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-agent-loop": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-hmr": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm-pi-ai": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-session-persistence": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-tool-web": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-user-approval": "0.2.1-alpha.2",
+    "@earendil-works/pi-ai": "1.1.0",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.2",
+    "zod": "4.6.5",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-credentials-local": "0.2.1-alpha.2",
+    "@types/react": "18.3.24",
+    "esbuild": "0.28.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "0.2.1-alpha.2",
+    "@deepseek-ai/cordis": "4.0.5-alpha.1",
+    "yaml": "2.9.1",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-agent-loop": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-hmr": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-llm-pi-ai": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-session-persistence": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-tool-web": "0.2.1-alpha.2",
+    "@deepseek-ai/dsh-user-approval": "0.2.1-alpha.2",
+    "@earendil-works/pi-ai": "1.1.0",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.2",
+    "zod": "4.6.5",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.2"
+  }
+}

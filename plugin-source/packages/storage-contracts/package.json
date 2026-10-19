@@ -1,0 +1,16 @@
+{
+  "name": "@variable-os/storage-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.mjs"
+    }
+  },
+  "scripts": {
+    "check": "node --check src/index.mjs && node --check src/time.mjs && node --check src/contracts.mjs && node --check src/canonical.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}

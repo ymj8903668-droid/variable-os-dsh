@@ -1,0 +1,61 @@
+Variable OS source-candidate notice
+
+First-party files: copyright Yangmingjie, GPL-3.0-only.
+The root LICENSE contains the GNU GPLv3 text. This grant does not replace
+third-party terms or establish rights over excluded sensitive material.
+
+The source candidate excludes node_modules, separately installed DSH
+packages, third-party Wiki engines and vendor voice resources. Generated
+client and remote artifacts are built from repository inputs; reviewed
+runtime dependencies remain external. See docs/DEPENDENCIES.md for the
+build boundary, dependency scope and unresolved attribution work.
+
+Trading Review Wiki, Kokoro resources, Seeduplex resources and the
+owner-specific Grok worker are not included in the first-release tree.
+First-party adapters and synthetic tests do not distribute those engines.
+
+This is not complete third-party attribution or distribution clearance.
+
+The optional IMA Host transport bundles ipaddr.js 2.5.0 (MIT). Its original
+copyright and permission notice are preserved in
+packages/dsh-desk-ui/lib/remote.bundle.mjs. No other vendor code is added to
+that runtime bundle by this exception.
+Dependency metadata and build-graph checks are not copyright provenance
+or license-compatibility decisions. Upstream terms, copyright notices
+and separately established rights remain unchanged. No public mirror
+or public release is authorized by this notice.
+
+Development patch context in the corresponding-source companion:
+
+- @deepseek-ai/dsh-settings@0.1.1-rc.2:
+  patches/dsh-settings-0.1.1-rc.2.patch
+- @deepseek-ai/dsh-settings-file@0.1.1-rc.2:
+  patches/dsh-settings-file-0.1.1-rc.2.patch
+
+These files include upstream context and removed lines from the named
+packages, plus Variable OS first-party changes. The upstream material keeps
+its MIT terms below; the root GPL notice does not relicense it. The patches
+are development build inputs, not applied by the public plugin installer.
+Both pinned packages carry the same original notice, reproduced in full:
+
+MIT License
+
+Copyright (c) 2026 DeepSeek
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

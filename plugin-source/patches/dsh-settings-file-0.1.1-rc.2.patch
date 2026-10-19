@@ -1,0 +1,114 @@
+diff --git a/lib/index.js b/lib/index.js
+index a3099bf..68431e6 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -81,6 +81,20 @@ var FileSettingsProvider = class extends SettingsProvider {
+ 	* this cache are no-ops, which is also the self-write suppression.
+ 	*/
+ 	text;
++	cachedPublicationRevision;
++	persistenceUncertain() {
++		this.cachedPublicationRevision = void 0;
++		return super.persistenceUncertain();
++	}
++	publishDisk(doc) {
++		this.cachedPublicationRevision = this.publicationRevision + 1;
++		try {
++			this.publish(doc);
++		} catch (error) {
++			this.cachedPublicationRevision = void 0;
++			throw error;
++		}
++	}
+ 	/**
+ 	* Single exclusive operation chain: watcher reloads and document writes run
+ 	* one at a time in queue order (settled tail), so a write can never render
+@@ -125,7 +139,7 @@ var FileSettingsProvider = class extends SettingsProvider {
+ 					throw error;
+ 				}
+ 				this.text = "";
+-				if (!this.isClosed()) this.publish({});
++				if (!this.isClosed()) this.publishDisk({});
+ 			});
+ 			return this.spec.filename;
+ 		});
+@@ -137,14 +151,18 @@ var FileSettingsProvider = class extends SettingsProvider {
+ 		} catch (error) {
+ 			if (!isENOENT(error)) throw error;
+ 			this.text = void 0;
++			this.cachedPublicationRevision = this.publicationRevision + 1;
+ 			return {};
+ 		}
+ 		const doc = this.parse(text);
+ 		this.text = text;
++		// Base initialization publishes the loaded document once.
++		this.cachedPublicationRevision = this.publicationRevision + 1;
+ 		return doc;
+ 	}
+-	persist(ns, section) {
+-		return this.enqueue(() => this.persistSection(ns, section));
++	persist(ns, section, assertUnchanged) {
++		if (typeof assertUnchanged !== "function") throw Object.assign(new Error("SETTINGS_GUARD_REQUIRED"), { code: "SETTINGS_GUARD_REQUIRED" });
++		return this.enqueue(() => this.persistSection(ns, section, assertUnchanged));
+ 	}
+ 	/** Queue one exclusive document operation behind every earlier one. */
+ 	enqueue(operation) {
+@@ -159,13 +177,15 @@ var FileSettingsProvider = class extends SettingsProvider {
+ 			this.ctx.logger.error(error);
+ 		});
+ 	}
+-	async persistSection(ns, section) {
++	async persistSection(ns, section, assertUnchanged) {
+ 		await mkdir(dirname(this.spec.filename), {
+ 			recursive: true,
+ 			mode: 448
+ 		});
+ 		await withFileLock(this.spec.filename, async () => {
+ 			await this.reconcileFromDisk();
++			// Refuse a stale candidate under the same lock, before touching storage.
++			assertUnchanged();
+ 			const output = this.spec.format === "yaml" ? this.renderYaml(ns, section) : this.renderJson(ns, section);
+ 			await writeFileAtomic(this.spec.filename, output, {
+ 				mode: 384,
+@@ -249,15 +269,15 @@ var FileSettingsProvider = class extends SettingsProvider {
+ 			if (!isENOENT(error)) throw error;
+ 			text = void 0;
+ 		}
+-		if (text === this.text || this.isClosed()) return;
++		if ((text === this.text && this.cachedPublicationRevision === this.publicationRevision) || this.isClosed()) return;
+ 		if (text === void 0) {
+ 			this.text = void 0;
+-			this.publish({});
++			this.publishDisk({});
+ 			return;
+ 		}
+ 		const doc = this.parse(text);
+ 		this.text = text;
+-		this.publish(doc);
++		this.publishDisk(doc);
+ 	}
+ 	/**
+ 	* Render the next YAML text by patching one namespace in the
+diff --git a/lib/types/index.d.ts b/lib/types/index.d.ts
+index 5433711..66a93a2 100644
+--- a/lib/types/index.d.ts
++++ b/lib/types/index.d.ts
+@@ -66,7 +66,10 @@ export declare class FileSettingsProvider extends SettingsProvider {
+     /** Materialize an absent owner-only document, then return its resolved path. */
+     prepareDocument(): Promise<string>;
+     protected load(): Promise<Record<string, unknown>>;
+-    protected persist(ns: SettingsNamespace, section: Record<string, unknown>): Promise<void>;
++    protected persist(ns: SettingsNamespace, section: Record<string, unknown>, assertUnchanged: () => void): Promise<void>;
++    private cachedPublicationRevision;
++    protected persistenceUncertain(): Error;
++    private publishDisk;
+     /** Queue one exclusive document operation behind every earlier one. */
+     private enqueue;
+     /** Queue a reload; only an invariant violation escaping a commit can reject it. */
+@@ -102,4 +105,4 @@ export declare class FileSettingsProvider extends SettingsProvider {
+     private renderJson;
+ }
+ export default FileSettingsProvider;
+-//# sourceMappingURL=index.d.ts.map
+\ No newline at end of file
++//# sourceMappingURL=index.d.ts.map

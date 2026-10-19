@@ -1,0 +1,216 @@
+diff --git a/lib/index.js b/lib/index.js
+index 5ab6707..e769a36 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -255,6 +255,8 @@ var SettingsProvider = class extends Service {
+ 	registrations = /* @__PURE__ */ new Map();
+ 	/** Latest published raw document; empty until the provider's first publish. */
+ 	document = {};
++	/** Every publication is a barrier, including equal-content publications. */
++	publicationEpoch = 0;
+ 	/** Per-namespace write chains; settled tails, so a failure never poisons the queue. */
+ 	writeQueues = /* @__PURE__ */ new Map();
+ 	/** In-flight watcher invocation segments, drained by the dispose teardown. */
+@@ -289,6 +291,14 @@ var SettingsProvider = class extends Service {
+ 	* @returns the absolute local document path, or undefined for non-file storage.
+ 	*/
+ 	get documentPath() {}
++	/** Variable OS qualified raw-document CAS/validity contract. */
++	get rawDocumentGuardVersion() { return 1; }
++	/** Storage providers use this only to detect a superseded reconciliation. */
++	get publicationRevision() { return this.publicationEpoch; }
++	/** Let storage providers invalidate caches when an attempted write is uncertain. */
++	persistenceUncertain() {
++		return Object.assign(new Error("SETTINGS_WRITE_UNCERTAIN"), { code: "SETTINGS_WRITE_UNCERTAIN" });
++	}
+ 	/**
+ 	* Prepare the provider's user-editable document for a native editor. File
+ 	* providers may materialize an absent document before returning its path;
+@@ -310,6 +320,8 @@ var SettingsProvider = class extends Service {
+ 	*/
+ 	register(ns, schema, options) {
+ 		if (this.registrations.has(ns)) throw new Error(`settings namespace "${ns}" is already registered`);
++		const epoch = this.publicationEpoch;
++		const accountedRaw = structuredClone(this.document[ns]);
+ 		const registration = {
+ 			ns,
+ 			schema,
+@@ -318,8 +330,14 @@ var SettingsProvider = class extends Service {
+ 			...options?.validate === void 0 ? {} : { validate: options.validate },
+ 			resolved: deepFreeze(this.resolve(schema, options?.base, this.section(ns), options?.validate)),
+ 			revision: 0,
++			notifiedRevision: 0,
++			documentValid: true,
++			accountedRaw,
+ 			watchers: /* @__PURE__ */ new Set()
+ 		};
++		if (epoch !== this.publicationEpoch || this.registrations.has(ns) || this.isStopped()) {
++			throw Object.assign(new Error("SETTINGS_REGISTRATION_CHANGED"), { code: "SETTINGS_REGISTRATION_CHANGED" });
++		}
+ 		this.ctx.effect(() => {
+ 			this.registrations.set(ns, registration);
+ 			return () => this.registrations.delete(ns);
+@@ -364,6 +382,7 @@ var SettingsProvider = class extends Service {
+ 				schema: registration.schema.toJSON(),
+ 				value: registration.resolved,
+ 				revision: registration.revision,
++				documentValid: registration.documentValid,
+ 				...base === void 0 ? {} : { base },
+ 				...detachedUser === void 0 ? {} : { user: detachedUser },
+ 				applies: registration.applies
+@@ -452,15 +471,28 @@ var SettingsProvider = class extends Service {
+ 		const run = (this.writeQueues.get(ns) ?? Promise.resolve()).catch(() => void 0).then(async () => {
+ 			if (this.isStopped()) throw new Error(`settings service was disposed before the queued "${ns}" ${verb} ran`);
+ 			if (this.registrations.get(ns) !== registration) throw new Error(`settings namespace "${ns}" registration was disposed before the queued ${verb} ran`);
+-			const current = this.section(ns) ?? {};
+ 			if (expectedRevision !== void 0 && expectedRevision !== registration.revision) throw new SettingsConflictError(ns, expectedRevision, registration.revision);
+-			const section = mode === "merge" ? mergeLayers(current, snapshot) : mode === "replace" ? snapshot : snapshot["ops"].reduce(applyPathOp, current);
++			if (!registration.documentValid && mode !== "replace") throw Object.assign(new Error("SETTINGS_INVALID_DOCUMENT"), { code: "SETTINGS_INVALID_DOCUMENT" });
++			const sectionBase = mode === "replace" ? {} : this.section(ns) ?? {};
++			const section = mode === "merge" ? mergeLayers(sectionBase, snapshot) : mode === "replace" ? snapshot : snapshot["ops"].reduce(applyPathOp, sectionBase);
++			const writeRevision = registration.revision;
++			const writeEpoch = this.publicationEpoch;
++			const changed = () => this.publicationEpoch !== writeEpoch || this.registrations.get(ns) !== registration || this.isStopped();
+ 			const next = deepFreeze(this.resolve(registration.schema, registration.base, section, registration.validate));
+-			await this.persist(ns, section);
++			if (changed() || registration.revision !== writeRevision) throw new SettingsConflictError(ns, writeRevision, registration.revision);
++			await this.persist(ns, section, () => {
++				if (changed() || registration.revision !== writeRevision) throw new SettingsConflictError(ns, writeRevision, registration.revision);
++			});
++			if (changed() || registration.revision !== writeRevision) {
++				throw this.persistenceUncertain();
++			}
+ 			this.document[ns] = section;
+ 			if (this.registrations.get(ns) === registration && !this.isStopped()) {
+-				this.bumpRevision(registration, current, section);
++				registration.documentValid = true;
++				this.bumpRevision(registration, section);
++				if (changed()) throw this.persistenceUncertain();
+ 				this.commit(registration, next, "update");
++				if (changed()) throw this.persistenceUncertain();
+ 			}
+ 		});
+ 		this.writeQueues.set(ns, run);
+@@ -474,23 +506,31 @@ var SettingsProvider = class extends Service {
+ 	* @param source - change origin; defaults to `provider`.
+ 	*/
+ 	publish(doc, source = "provider") {
+-		const before = /* @__PURE__ */ new Map();
+-		for (const registration of this.registrations.values()) try {
+-			before.set(registration.ns, this.section(registration.ns));
+-		} catch {
+-			before.set(registration.ns, void 0);
+-		}
++		const epoch = ++this.publicationEpoch;
+ 		this.document = doc;
++		// Account for the whole raw transition before any reentrant callback.
++		// Until validation finishes, descriptors conservatively report invalid.
++		for (const registration of this.registrations.values()) {
++			registration.documentValid = false;
++			this.bumpRevision(registration, this.document[registration.ns], false);
++		}
+ 		for (const registration of this.registrations.values()) {
++			if (epoch !== this.publicationEpoch) return;
+ 			let next;
+ 			try {
+ 				next = deepFreeze(this.resolve(registration.schema, registration.base, this.section(registration.ns), registration.validate));
+ 			} catch (error) {
++				if (epoch !== this.publicationEpoch) return;
++				registration.documentValid = false;
++				this.notifyRevision(registration);
++				if (epoch !== this.publicationEpoch) return;
+ 				this.ctx.logger.warn("settings: keeping last good \"%s\" after invalid stored section", registration.ns);
+-				this.ctx.logger.warn(error);
+ 				continue;
+ 			}
+-			this.bumpRevision(registration, before.get(registration.ns), this.section(registration.ns));
++			if (epoch !== this.publicationEpoch) return;
++			registration.documentValid = true;
++			this.notifyRevision(registration);
++			if (epoch !== this.publicationEpoch) return;
+ 			this.commit(registration, next, source);
+ 		}
+ 	}
+@@ -514,9 +554,18 @@ var SettingsProvider = class extends Service {
+ 	* value alone but changes what the document says, which is exactly what a
+ 	* configuration surface must re-read.
+ 	*/
+-	bumpRevision(registration, before, after) {
+-		if (deepEqualJson(before, after)) return;
+-		registration.revision += 1;
++	bumpRevision(registration, after, notify = true) {
++		// Nested publications must compare against each namespace's last
++		// accounted raw value, not a globally replaced document.
++		const before = registration.accountedRaw;
++		registration.accountedRaw = structuredClone(after);
++		if (!deepEqualJson(before, after)) registration.revision += 1;
++		if (notify) this.notifyRevision(registration);
++	}
++	/** Nested publication also drains revisions accounted by its predecessor. */
++	notifyRevision(registration) {
++		if (registration.notifiedRevision === registration.revision) return;
++		registration.notifiedRevision = registration.revision;
+ 		this.emitDocumentUpdated(registration.ns, registration.revision);
+ 	}
+ 	/** Contained fan-out of `settings/document-updated`, mirroring {@link commit}'s. */
+diff --git a/lib/types/index.d.ts b/lib/types/index.d.ts
+index 7768c1b..c53e8e3 100644
+--- a/lib/types/index.d.ts
++++ b/lib/types/index.d.ts
+@@ -60,6 +60,8 @@ export interface SettingsDescriptor {
+      * Send it back as `expectedRevision` on a write to refuse a stale one.
+      */
+     revision: number;
++    /** Variable OS patch: whether the current stored namespace is schema-valid. */
++    documentValid: boolean;
+     /** Registrant's composition `base` layer (detached), when one was declared. */
+     base?: unknown;
+     /**
+@@ -168,6 +170,8 @@ export declare abstract class SettingsProvider extends Service {
+     private readonly registrations;
+     /** Latest published raw document; empty until the provider's first publish. */
+     private document;
++    /** Every publication is a barrier, including equal-content publications. */
++    private publicationEpoch;
+     /** Per-namespace write chains; settled tails, so a failure never poisons the queue. */
+     private readonly writeQueues;
+     /** In-flight watcher invocation segments, drained by the dispose teardown. */
+@@ -194,6 +198,11 @@ export declare abstract class SettingsProvider extends Service {
+      * @returns the absolute local document path, or undefined for non-file storage.
+      */
+     get documentPath(): string | undefined;
++    /** Variable OS qualified raw-document CAS/validity contract version. */
++    get rawDocumentGuardVersion(): number;
++    protected get publicationRevision(): number;
++    /** Storage providers may invalidate caches before returning an uncertain-write error. */
++    protected persistenceUncertain(): Error;
+     /**
+      * Prepare the provider's user-editable document for a native editor. File
+      * providers may materialize an absent document before returning its path;
+@@ -210,8 +219,9 @@ export declare abstract class SettingsProvider extends Service {
+      * Durably store one namespace's merged user section.
+      * @param ns - the namespace being written.
+      * @param section - the complete merged user section to store.
++     * @param assertUnchanged - call after reconciling storage, under the writer lock, before writing.
+      */
+-    protected abstract persist(ns: SettingsNamespace, section: Record<string, unknown>): Promise<void>;
++    protected abstract persist(ns: SettingsNamespace, section: Record<string, unknown>, assertUnchanged: () => void): Promise<void>;
+     /**
+      * Register a namespace schema and receive its owner scope. The registration
+      * is an effect on the calling plugin's fiber: disposing that fiber removes
+@@ -295,6 +305,8 @@ export declare abstract class SettingsProvider extends Service {
+      * configuration surface must re-read.
+      */
+     private bumpRevision;
++    /** Nested publication also drains revisions accounted by its predecessor. */
++    private notifyRevision;
+     /** Contained fan-out of `settings/document-updated`, mirroring {@link commit}'s. */
+     private emitDocumentUpdated;
+     /** Commit a resolved value when changed: swap, notify watchers, emit the event. */
+@@ -340,4 +352,4 @@ export interface SettingsSectionHooks<T> {
+  */
+ export declare function installSettingsSection<T>(ctx: Context, ns: SettingsNamespace, schema: z<T>, entry: T, hooks: SettingsSectionHooks<T>): void;
+ export default SettingsProvider;
+-//# sourceMappingURL=index.d.ts.map
+\ No newline at end of file
++//# sourceMappingURL=index.d.ts.map

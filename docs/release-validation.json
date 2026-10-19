@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "tag": "v0.1.1-preview.20261019",
+  "pluginVersion": "0.1.1",
+  "status": "PUBLIC_PREVIEW",
+  "fullDelivery": false,
+  "publicReleaseQualified": false,
+  "validationDate": "2026-10-19",
+  "platform": {
+    "os": "macOS 26.5.1",
+    "arch": "arm64",
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "dsh": "0.2.1-alpha.2"
+  },
+  "sourceRebuild": {
+    "status": "SOURCE_REBUILD_VERIFIED",
+    "verifiedFiles": 32,
+    "pluginManifestSha256": "79a437cde230423dd663cb714c1bad093ca4e627e0d5270e433cb5e21d13657c"
+  },
+  "freshInstall": {
+    "stage": "fresh-macos-preview-zip-install",
+    "exit": 0,
+    "elapsedSeconds": 47.55,
+    "confirmationSent": true,
+    "autoOpenDeclined": true,
+    "emptyHome": true,
+    "modelKeyConfigured": false
+  },
+  "browser": {
+    "originalChineseDesk": true,
+    "configurationScreen": true,
+    "cards": 0,
+    "sourceTokenConfigured": false,
+    "modelKeyConfigured": false,
+    "paidCalls": 0,
+    "screenshots": "docs/images/"
+  },
+  "stop": "PUBLIC_DESK_STOPPED",
+  "dependencyAudit": [
+    {
+      "profile": "build",
+      "exit": 0,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "advisorySummary": [],
+      "errorCode": null
+    },
+    {
+      "profile": "host",
+      "exit": 0,
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "advisorySummary": [],
+      "errorCode": null
+    }
+  ],
+  "packageChanges": [
+    "installer README.zh.md",
+    "installer-manifest.json binding for README"
+  ],
+  "unchanged": [
+    "plugin TGZ",
+    "source TGZ",
+    "executable installer code",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "notVerified": [
+    "Windows",
+    "Finder Gatekeeper and notarization",
+    "100-user concurrency",
+    "full ordinary-member joint lifecycle in this run",
+    "optional AI and voice services in this run",
+    "full project delivery"
+  ]
+}

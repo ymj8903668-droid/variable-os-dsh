@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "dshVersion": "0.2.1-alpha.2",
+  "publicReleaseQualified": false,
+  "files": [
+    {
+      "path": "cordis.patch.yml",
+      "bytes": 79,
+      "sha256": "4a6aaa1921e613b82b2fc1a680098b1458612cb68a8c4780293b9cdaa93701ed"
+    },
+    {
+      "path": "docs/BUILD_AND_TEST.md",
+      "bytes": 8952,
+      "sha256": "597568824638cab17c10061deb30d246db4ac0ff58689894d0ec0334bcec32af"
+    },
+    {
+      "path": "docs/DEPENDENCIES.md",
+      "bytes": 7029,
+      "sha256": "738fbd62705b09489806e121f99e9c28f188bee74f60f9182c0b42336e96c836"
+    },
+    {
+      "path": "docs/PLUGIN_SOURCE_BUILD.md",
+      "bytes": 4354,
+      "sha256": "c0d006af93e9b6a3b1fcafcc64fbfc5f862d5e6a9315fa77b90f7333f9cfe493"
+    },
+    {
+      "path": "fixtures/policies/budget-v1.json",
+      "bytes": 182,
+      "sha256": "506c23eea581f428a80d85ab8e93acf4af5f0175d2faa2d3d8d18b84740e5117"
+    },
+    {
+      "path": "fixtures/policies/fermentation-rule-v1.json",
+      "bytes": 379,
+      "sha256": "0fb1bacc3c2fecadd92fb6d61a528092628d0dd567aef1ac4cdaa4b10da3a0aa"
+    },
+    {
+      "path": "fixtures/policies/mapping-rule-v1.json",
+      "bytes": 329,
+      "sha256": "ad4379e37edbb997783cc03bce0cd639b4d340eb49807eb92c55210322d7f88c"
+    },
+    {
+      "path": "fixtures/policies/reaction-search-v1.json",
+      "bytes": 246,
+      "sha256": "d0f075049f5f2e150ceeb9b0477d9ac9fbe9b00514d98ff7e13e1eec17413e38"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 36564,
+      "sha256": "93dfeae4f84dbc4cec18be46d6e74d02920ee40226f16dc5dec4b772a90fadd5"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 3050,
+      "sha256": "3fb6dc042a4eda7ab4468ff960fa4cc2a4f3b1a95e0680316955bb85e104389c"
+    },
+    {
+      "path": "package.json",
+      "bytes": 3358,
+      "sha256": "9b1edb5362e0e3c08ba95e4cc70f6da7517b8d05fb0b2452a14c0a29ef4945a5"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/client.js",
+      "bytes": 1035593,
+      "sha256": "ca9ab56d4af0227eaef9a4eec031e2edff831b3f93e43e9e9835d0e4f8f92e2b"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/duplex-audio-worklet.js",
+      "bytes": 2173,
+      "sha256": "34edc2716ac630fdd5b8fb419ba23bbc0f155f91587900defd220b66af302626"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/personal-agent-session.js",
+      "bytes": 152641,
+      "sha256": "31a64592713dbfd19f696401a27d393b3c4b9691f7802cb738e0e58222de761a"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/personal-model-adapter.js",
+      "bytes": 21512,
+      "sha256": "5a3e855a193c0ae7872c335fdbb9d587658e2acda8cdb20134c768ff073cc7f2"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/personal-model-profile.js",
+      "bytes": 32900,
+      "sha256": "cabfd16762aed7d5a313ef26e5c76546ec8db0c671664fd59e6f59d8bfd7270f"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/personal-model-settings.js",
+      "bytes": 57018,
+      "sha256": "42580ef152e240c5d9bad667c385062042b69668bdebfbe6802f2b659e8e78ff"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/public-plugin-layout.js",
+      "bytes": 2226,
+      "sha256": "1adcf30861519469c537f2ad01bc87c91804596bd0a57641c402b77268a3cff0"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/public-plugin-runtime.js",
+      "bytes": 2990,
+      "sha256": "8cfd201ff90c01703a705afecd697e496bdbb0e90e859c88cca0dc9611d4f2d3"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/public-plugin.js",
+      "bytes": 1887,
+      "sha256": "95a98390059d70bdcb0c6a32619601311d16c90196476a662848d4769e3b4262"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/remote.bundle.mjs",
+      "bytes": 593198,
+      "sha256": "84f9938a54b7a05786604b8d0f9d92b7bfeb2d2b76e8edf0334f31914d066009"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/windows-private-command.js",
+      "bytes": 5670,
+      "sha256": "4aa3893bf116349f5e96caf98b9e34cfea6c3fcc3c7d008551230d5adf1ae31c"
+    },
+    {
+      "path": "packages/dsh-desk-ui/lib/windows-private-state.js",
+      "bytes": 6940,
+      "sha256": "0286f13ddddde020f19f06fe69692325de5b35b2fb471dc0bf9c99c3197bc6b8"
+    },
+    {
+      "path": "packages/dsh-tools/lib/remote.bundle.mjs",
+      "bytes": 91335,
+      "sha256": "33e9490c3d52b7051d5a0830d4144dd6f41eb79f1010a9706fcdbf744de0064d"
+    },
+    {
+      "path": "packages/edge-mcp-bridge/src/stdio.mjs",
+      "bytes": 102842,
+      "sha256": "6b919c8271f850ec5a6c964617e1f75948317341bf519f2ca9ab9366777e9609"
+    },
+    {
+      "path": "plugin-dependencies.json",
+      "bytes": 65,
+      "sha256": "9c1a360bed1b02905828ab62416d55a9357c58bf5fd689fb104fed43454321ba"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1418,
+      "sha256": "f52e6a29aae017e75a697dff251b48c458e71515ba19426303fc302e6af1ecf5"
+    },
+    {
+      "path": "src/research/personal-desk.mjs",
+      "bytes": 781875,
+      "sha256": "80a7a1fe2f328d797383908b9c1972c1648298d695223e37bb54cd625f8fa399"
+    },
+    {
+      "path": "src/runtime/harness-research-host-duplex-provider-child.mjs",
+      "bytes": 13290,
+      "sha256": "5ef088852e3533541fb49e6ff5252772d610c77c2be50caef88259d328615357"
+    },
+    {
+      "path": "src/runtime/harness-research-host-duplex-provider.mjs",
+      "bytes": 10297,
+      "sha256": "2302362be839f937464ea881ba8a072f81313663d64ab67e5e1fe6cebc0be066"
+    },
+    {
+      "path": "src/runtime/ima-card-input.mjs",
+      "bytes": 13238,
+      "sha256": "7b452a6d168f40dd82dbdcb8c988a35a0ae00fda541204f22c048229795fb0c4"
+    },
+    {
+      "path": "USER-GUIDE.zh.md",
+      "bytes": 8675,
+      "sha256": "0272fb6cc6429903e94a62c652790faccab2f20e2bfa76eb3e796ae7cd2ac104"
+    }
+  ]
+}

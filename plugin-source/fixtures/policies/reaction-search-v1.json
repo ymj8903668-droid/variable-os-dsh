@@ -1,0 +1,9 @@
+{
+  "version": "reaction-search-v1",
+  "synthetic": true,
+  "sessionOpen": "09:30",
+  "sessionClose": "15:00",
+  "endHorizon": "T5",
+  "startRule": "SESSION_OPEN_OR_PREVIOUS_COMPLETE_SESSION_OPEN",
+  "calendarRuleVersion": "a-share-horizon-v1"
+}

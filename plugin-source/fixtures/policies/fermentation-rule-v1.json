@@ -1,0 +1,19 @@
+{
+  "version": "fermentation-rule-v1",
+  "synthetic": true,
+  "minConstituents": 3,
+  "ineligibleReason": "CONSTITUENT_COUNT_BELOW_3",
+  "benchmarkSnapshot": {
+    "market": "DEMO_MARKET",
+    "industry": "DEMO_INDUSTRY"
+  },
+  "results": [
+    "STRONG",
+    "WEAK",
+    "NARRATIVE_ONLY",
+    "COUNTEREVIDENCE",
+    "NO_FERMENTATION",
+    "CONFOUNDED",
+    "NOT_EVALUABLE"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "version": "mapping-rule-v1",
+  "synthetic": true,
+  "independentOfThemeFermentation": true,
+  "benchmarkSnapshot": {
+    "market": "DEMO_MARKET",
+    "industry": "DEMO_INDUSTRY"
+  },
+  "results": [
+    "HIT",
+    "PARTIAL_HIT",
+    "NO_SIGNAL",
+    "MISS",
+    "COUNTEREVIDENCE",
+    "CONFOUNDED",
+    "NOT_EVALUABLE"
+  ]
+}

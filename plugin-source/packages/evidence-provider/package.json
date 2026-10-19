@@ -1,0 +1,26 @@
+{
+  "name": "@variable-os/evidence-provider",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.mjs"
+    },
+    "./ima": {
+      "types": "./src/ima-transport.d.ts",
+      "import": "./src/ima-transport.mjs"
+    },
+    "./test-kit": {
+      "types": "./test-kit/index.d.ts",
+      "import": "./test-kit/index.mjs"
+    }
+  },
+  "scripts": {
+    "test": "node --test --test-reporter=tap test/*.test.mjs"
+  },
+  "dependencies": {
+    "ipaddr.js": "2.5.0"
+  }
+}

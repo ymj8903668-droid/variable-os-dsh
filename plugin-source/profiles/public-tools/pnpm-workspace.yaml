@@ -1,0 +1,8 @@
+packages:
+  - .
+pmOnFail: error
+runtimeOnFail: error
+ignoreScripts: true
+overrides:
+  # GHSA-px8p-9vwx-vf98: reject malformed ZIP64 archives in the Office reader.
+  '@deepseek-ai/libreoffice-kit@0.1.5>fflate': 0.8.3

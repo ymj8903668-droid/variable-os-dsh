@@ -1,0 +1,10 @@
+{
+  "name": "@variable-os/public-tools",
+  "version": "1.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "packageManager": "pnpm@11.25.0",
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.2.1-alpha.2"
+  }
+}
