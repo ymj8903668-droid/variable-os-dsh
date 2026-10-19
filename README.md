@@ -7,10 +7,17 @@
 **当前发布：0.1.1 公开预览版。** 适合愿意反馈问题的 macOS 用户；完整产品、Windows、百人并发及所有可选 AI 能力尚未验收。此仓库发布插件源码与安装包，不包含运营方私有研究库或完整网站后台。
 
 - [下载预览版安装包与源码包](https://github.com/ymj8903668-droid/variable-os-dsh/releases/tag/v0.1.1-preview.20261019)
+- [给 AI 助手的安装与接入指南](AI_START_HERE.md) · [纯文本入口](https://raw.githubusercontent.com/ymj8903668-droid/variable-os-dsh/main/AI_START_HERE.md)
 - [中文安装与配置](docs/安装与配置.md)
 - [源码构建与二次开发](docs/源码构建.md)
 - [验收记录与已知限制](docs/验收与限制.md)
 - [正式服务网站](https://ymj0418.com:18443/)
+
+想让自己的 AI 帮忙，可直接把 [AI_START_HERE.md](https://github.com/ymj8903668-droid/variable-os-dsh/blob/main/AI_START_HERE.md) 发给它，并说：
+
+> 请先完整阅读这份指南，协助我安装并连接自己的 Variable OS 账户，直到实际读到获授权的业主原卡。需要我完成邮箱验证或填写凭证时告诉我具体步骤；不要覆盖已有安装，不调用付费模型，未完成的步骤如实报告。
+
+AI 是否能实际操作取决于它的终端、浏览器工具及你的授权；这份指南不代表已经提供全自动注册服务。
 
 ## 实际界面
 
